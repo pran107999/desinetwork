@@ -237,7 +237,7 @@ desinetwork/
 
 | ID | Task | Acceptance criteria |
 |---|---|---|
-| A0.1 | Create GitHub repo + Next.js (TypeScript, Tailwind, shadcn/ui) project; add `CLAUDE.md`, `/docs`, `.env.example`, branch protection | `npm run dev` shows a starter page; `CLAUDE.md` and docs present; direct push to `main` blocked |
+| A0.1 | Create GitHub repo + Next.js (TypeScript, Tailwind, shadcn/ui) project; add `CLAUDE.md`, `/docs`, `.env.example`, branch protection | `pnpm dev` shows a starter page; `CLAUDE.md` and docs present; direct push to `main` blocked |
 | A0.2 | Create Supabase project + set up local Supabase CLI | App connects to local and cloud DB |
 | A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | `supabase db reset` loads all seed data |
 | A0.4 | Row-level security policies baseline | Automated test: user A cannot edit user B's data |
@@ -262,5 +262,7 @@ desinetwork/
 | A3 | Platform | **Responsive web** only; PWA later; no native apps for now |
 | A4 | Domain | **desinetwork.co** |
 | A5 | Services | Render (hosting), Supabase (DB/auth), Twilio Verify (SMS), Resend (email), Cloudflare R2 (photos), Stripe (payments). Paid plans acceptable when needed |
+| A6 | Repo visibility | **Public** GitHub repo (24 Nov 2026): branch protection on a private repo needs GitHub Pro. No secrets in the repo; turn on secret scanning + push protection (Settings → Code security) |
+| A7 | Contrast-safe primary | Filled buttons use saffron-dark `#C2410C` (5.18:1 with white). Saffron `#F26B1D` only for decoration (3.05:1 fails AA) |
 
 No open questions. Next: start A0.1 with Claude Code.

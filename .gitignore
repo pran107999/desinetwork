@@ -1,14 +1,31 @@
+# dependencies
 node_modules/
+.pnp
+.pnp.*
+
+# next.js / build output
 .next/
 out/
+build/
 dist/
+next-env.d.ts
+*.tsbuildinfo
+
+# testing
 coverage/
 playwright-report/
 test-results/
+blob-report/
+playwright/.cache/
+
+# env files (only .env.example is committed)
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+
+# misc
 .DS_Store
+*.pem
 *.log
 .vercel
 .supabase/
