@@ -9,7 +9,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 ## Setup (architecture.md §11): do first
 | ID | Task | Status | PR / notes |
 |---|---|---|---|
-| A0.1 | Create GitHub repo + Next.js (TypeScript, Tailwind, shadcn/ui) project; add `CLAUDE.md`, `/docs`, `.env.exa… | Todo | |
+| A0.1 | Create GitHub repo + Next.js (TypeScript, Tailwind, shadcn/ui) project; add `CLAUDE.md`, `/docs`, `.env.exa… | Done | `feat/A0.1-project-setup`; Playwright 375/1440 projects already in place (part of A0.14) |
 | A0.2 | Create Supabase project + set up local Supabase CLI | Todo | |
 | A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | Todo | |
 | A0.4 | Row-level security policies baseline | Todo | |

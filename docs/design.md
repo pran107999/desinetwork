@@ -23,7 +23,8 @@ Export each screen as PNG into `docs/design/` (e.g., `desktop-01-home.png`) so C
 ## Brand tokens
 | Token | Value | Use |
 |---|---|---|
-| `primary` | `#F26B1D` (saffron orange) | Main buttons ("Post Free Ad", "Publish"), key actions |
+| `primary` | `#F26B1D` (saffron orange) | Brand accent, logo, decoration (not for small text: 3.05:1 on white) |
+| `primary-dark` | `#C2410C` (dark saffron) | Filled main buttons ("Post Free Ad", "Publish") with white text (5.18:1), logo "Desi" |
 | `secondary` | `#0F4C5C` (deep teal) | Header, headings, links |
 | `background` | `#FAF7F2` (warm off-white) | Page background |
 | `surface` | `#FFFFFF` | Cards, panels |
@@ -31,7 +32,7 @@ Export each screen as PNG into `docs/design/` (e.g., `desktop-01-home.png`) so C
 | `muted` | `#6B7280` | Secondary text, timestamps |
 | `success` / `warning` / `danger` | `#16A34A` / `#D97706` / `#DC2626` | Status badges, errors |
 
-Check that every text/background pair meets WCAG AA contrast (white text on `#F26B1D` buttons should be bold and 16px or larger, or darken the orange for small text).
+Check that every text/background pair meets WCAG AA contrast. White on `#F26B1D` is 3.05:1 and fails, so buttons use `primary-dark`. `success` and `warning` also fail with white text (3.30 / 3.19); badges use dark text or `#15803D` / `#B45309`. Tokens live in `app/globals.css`.
 
 ## Typography
 - Font: **Inter** (fallback: system sans-serif).

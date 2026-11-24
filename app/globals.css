@@ -1,0 +1,99 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+ * Brand tokens from docs/design.md.
+ *
+ * Contrast (WCAG 2.1 AA needs 4.5:1 for normal text):
+ * - White on saffron #F26B1D is only 3.05:1, so filled buttons use
+ *   saffron-dark #C2410C (5.18:1). Plain saffron is kept for the logo and
+ *   decoration, never for small text on white.
+ * - success #16A34A (3.30:1) and warning #D97706 (3.19:1) fail with white
+ *   text, so status badges must use dark text or the -dark variants below.
+ */
+:root {
+  --brand-saffron: #f26b1d;
+  --brand-saffron-dark: #c2410c;
+  --brand-teal: #0f4c5c;
+  --brand-cream: #faf7f2;
+  --brand-ink: #1f2937;
+  --brand-slate: #6b7280;
+  --brand-success: #16a34a;
+  --brand-success-dark: #15803d;
+  --brand-warning: #d97706;
+  --brand-warning-dark: #b45309;
+  --brand-danger: #dc2626;
+
+  /* shadcn/ui semantic tokens mapped onto the brand */
+  --background: var(--brand-cream);
+  --foreground: var(--brand-ink);
+  --card: #ffffff;
+  --card-foreground: var(--brand-ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--brand-ink);
+  --primary: var(--brand-saffron-dark);
+  --primary-foreground: #ffffff;
+  --secondary: var(--brand-teal);
+  --secondary-foreground: #ffffff;
+  --muted: #f1ede6;
+  --muted-foreground: var(--brand-slate);
+  --accent: #f1ede6;
+  --accent-foreground: var(--brand-ink);
+  --destructive: var(--brand-danger);
+  --border: #e7e2d9;
+  --input: #d6d0c4;
+  --ring: var(--brand-teal);
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-saffron: var(--brand-saffron);
+  --color-saffron-dark: var(--brand-saffron-dark);
+  --color-teal: var(--brand-teal);
+  --color-success: var(--brand-success);
+  --color-success-dark: var(--brand-success-dark);
+  --color-warning: var(--brand-warning);
+  --color-warning-dark: var(--brand-warning-dark);
+  --color-danger: var(--brand-danger);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
