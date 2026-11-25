@@ -27,3 +27,6 @@ pnpm db:stop
 
 Cloud staging: put the staging project's values in `.env.staging.local` (gitignored), then run `pnpm check:cloud`.
 Health check: `GET /api/health` returns `{ "db": "ok", "auth": "ok" }`.
+
+## CI
+Every pull request and every push to `main` runs `.github/workflows/ci.yml` (job **checks**): lint, type check, unit tests, local Supabase + integration tests, and Playwright e2e at 375px and 1440px. `main` only accepts PRs whose **checks** job passed. Node version: `.nvmrc`.
