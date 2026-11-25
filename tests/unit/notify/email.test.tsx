@@ -48,8 +48,11 @@ describe("sendEmail (A0.8)", () => {
     expect(() => parseEmailEnv({ RESEND_API_KEY: env.RESEND_API_KEY })).toThrow(/EMAIL_FROM/);
   });
 
-  it("only sends from a desinetwork.co address", () => {
+  it("only sends from desinetwork.co or one of its subdomains", () => {
     expect(() => parseEmailEnv({ ...env, EMAIL_FROM: "Spoof <x@gmail.com>" })).toThrow(/EMAIL_FROM/);
+    expect(() => parseEmailEnv({ ...env, EMAIL_FROM: "Spoof <x@desinetwork.co.evil.com>" })).toThrow(/EMAIL_FROM/);
+    expect(() => parseEmailEnv({ ...env, EMAIL_FROM: "Spoof <x@notdesinetwork.co>" })).toThrow(/EMAIL_FROM/);
+    expect(parseEmailEnv({ ...env, EMAIL_FROM: "Desinetwork <no-reply@otp.desinetwork.co>" }).EMAIL_FROM).toContain("otp.");
   });
 
   it("refuses an invalid recipient before calling Resend", async () => {

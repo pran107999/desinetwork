@@ -9,10 +9,14 @@ import { maskEmail } from "./mask";
 
 const emailEnvSchema = z.object({
   RESEND_API_KEY: z.string({ error: "RESEND_API_KEY is missing" }).min(1, "RESEND_API_KEY is missing"),
-  // e.g. "Desinetwork <no-reply@desinetwork.co>": only our verified domain.
+  // e.g. "Desinetwork <no-reply@desinetwork.co>": only our domain or its
+  // subdomains (each must be verified in Resend).
   EMAIL_FROM: z
     .string({ error: "EMAIL_FROM is missing" })
-    .regex(/^[^<>]+<[^<>@\s]+@desinetwork\.co>$/, "EMAIL_FROM must be \"Name <address@desinetwork.co>\""),
+    .regex(
+      /^[^<>]+<[^<>@\s]+@([a-z0-9-]+\.)*desinetwork\.co>$/i,
+      "EMAIL_FROM must be \"Name <address@desinetwork.co>\"",
+    ),
 });
 export type EmailEnv = z.infer<typeof emailEnvSchema>;
 
