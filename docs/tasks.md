@@ -20,7 +20,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Deferred | Product owner (D12): build just before T2.3b; email codes first (A0.9e) |
 | A0.9e | Email sign-in codes: Supabase Auth sends 6-digit codes via Resend SMTP (replaces A0.9 in the setup order, D12) | Done | `feat/A0.9e-email-otp`; staging code via Resend SMTP reached Gmail Primary inbox and signed in (`pnpm otp:test`) |
 | A0.10 | Stripe test mode keys + webhook endpoint | Deferred | Product owner (D13): set up just before MVP 6 (Monetization), with T6.2 |
-| A0.11 | Sentry + PostHog connected | Todo | |
+| A0.11 | Sentry + PostHog connected | Done | PR #15; staging test error \"Sentry test error (A0.11)\" in Sentry (0 users: no personal data); `$pageview` in PostHog |
 | A0.12 | `activity_events` table + `logEvent()` helper (PRD T0.6) | Todo | |
 | A0.13 | Connect desinetwork.co to Cloudflare DNS; `staging.desinetwork.co` → Vercel staging | Todo | |
 | A0.14 | Responsive check in CI: Playwright runs e2e tests at 375px and 1440px | Done | Covered by A0.6: CI runs Playwright at 375px and 1440px |
