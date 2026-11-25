@@ -1,3 +1,6 @@
 allowBuilds:
+  # react-email preview CLI only; not needed to render emails
+  esbuild: false
+  # image processing; enable in T1.5
   sharp: false
   unrs-resolver: false

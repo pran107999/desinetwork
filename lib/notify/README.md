@@ -1,2 +1,6 @@
 # lib/notify
-Email (Resend) and SMS (Twilio via Supabase) wrappers (A0.8, A0.9).
+Email (Resend + React Email) now; SMS (Twilio via Supabase) in A0.9.
+
+- `email.ts` (server-only): `sendEmail({ to, subject, template })`, sends HTML + plain text from `EMAIL_FROM`.
+- `mask.ts`: `maskEmail()` for logs; never log full addresses.
+- Templates live in `/emails`.
