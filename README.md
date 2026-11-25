@@ -38,3 +38,13 @@ Every pull request and every push to `main` runs `.github/workflows/ci.yml` (job
 STAGING_URL=https://<project>.vercel.app pnpm check:staging   # e2e tests against staging, 375px + 1440px
 ```
 `GET /api/health` shows `{ db, auth, commit }`; `commit` is the deployed git commit.
+
+## Photo storage (Cloudflare R2)
+Two private buckets: `desinetwork-photos-dev` (your Mac + CI) and `desinetwork-photos-staging` (Vercel). Each has its own API token limited to that bucket. Set `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` in `.env.local` (dev), `.env.staging.local` and Vercel (staging); CI uses GitHub Actions secrets (dev).
+
+Uploads: the browser calls `POST /api/uploads/sign` with `{ contentType, size }` (signed-in users only) and PUTs the file straight to R2 with the returned link (5 minutes, type and size locked). Originals land in `incoming/<user>/`; resizing and GPS removal arrive in T1.5.
+
+```bash
+pnpm test:integration                     # includes a real upload to the dev bucket (skips without R2 keys)
+KEEP_TEST_UPLOAD=1 pnpm test:integration  # keep the test file so you can see it in the Cloudflare dashboard
+```
