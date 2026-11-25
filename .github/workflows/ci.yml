@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A newer push to the same branch/PR cancels the older run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6 # version comes from package.json "packageManager"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 3.4.0
+
+      # Only the services the app uses today: Postgres, Auth (gotrue),
+      # REST (postgrest) and the API gateway (kong). Applies migrations + seed.
+      - name: Start local Supabase
+        run: >
+          supabase start
+          -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+
+      # Local Supabase test keys only (not secrets); never real project keys.
+      - name: Write .env.local from local Supabase
+        run: |
+          supabase status -o env > /tmp/sb.env
+          {
+            echo "NEXT_PUBLIC_SITE_URL=http://localhost:3000"
+            grep '^API_URL=' /tmp/sb.env | sed 's/^API_URL=/NEXT_PUBLIC_SUPABASE_URL=/'
+            grep '^PUBLISHABLE_KEY=' /tmp/sb.env | sed 's/^PUBLISHABLE_KEY=/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=/'
+            grep '^SECRET_KEY=' /tmp/sb.env | sed 's/^SECRET_KEY=/SUPABASE_SECRET_KEY=/'
+          } > .env.local
+          cut -d= -f1 .env.local
+
+      - name: Integration tests
+        run: pnpm test:integration
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # CI=true makes Playwright build and start the production app,
+      # then run every test at 375px and 1440px.
+      - name: E2E tests (375px + 1440px)
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
