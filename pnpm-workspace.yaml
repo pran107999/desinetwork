@@ -1,6 +1,11 @@
 allowBuilds:
+  # postinstall only prints a funding message (via an SDK dependency)
+  core-js: false
   # react-email preview CLI only; not needed to render emails
   esbuild: false
   # image processing; enable in T1.5
   sharp: false
   unrs-resolver: false
+minimumReleaseAgeExclude:
+  - '@posthog/browser-common@0.14.0'
+  - posthog-js@1.454.5

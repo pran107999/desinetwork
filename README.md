@@ -71,3 +71,11 @@ Users sign in with a **6-digit code** emailed by Supabase Auth (no links). Codes
 ```bash
 pnpm otp:test   # sends a real code to the address you type, against staging
 ```
+
+## Monitoring (Sentry) and analytics (PostHog)
+Both are **off unless their keys are set** (`NEXT_PUBLIC_SENTRY_DSN`, `NEXT_PUBLIC_POSTHOG_KEY`), so local runs and CI send nothing.
+
+- **Sentry** (`instrumentation.ts`, `instrumentation-client.ts`, `lib/monitoring`): server and browser errors, tagged `staging` / `preview` / `development`. Every event is scrubbed of emails, US phone numbers, keys, tokens, cookies and auth headers; Sentry's default personal data is off.
+- **PostHog** (`lib/analytics`): automatic page views through `/ingest` on our own domain; no session recordings, no autocapture, Do Not Track respected, anonymous until sign-in. Use `track(event, props)` for product events, never with personal data.
+- **Test error:** `curl -H "x-debug-token: $DEBUG_TOKEN" https://desinetwork.vercel.app/api/debug/sentry-test` throws on purpose; without the token it's a 404.
+- Source-map upload to Sentry (readable stack traces) is not set up yet.
