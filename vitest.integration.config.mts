@@ -12,7 +12,11 @@ if (!existsSync(file)) {
 const fileEnv = parseEnv(readFileSync(file, "utf8")) as Record<string, string>;
 
 export default defineConfig({
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    // Next.js enforces "server-only" at build time; tests may import those modules.
+    alias: { "server-only": new URL("./tests/stubs/server-only.ts", import.meta.url).pathname },
+  },
   test: {
     environment: "node",
     include: ["tests/integration/**/*.test.ts"],

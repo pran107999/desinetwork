@@ -21,6 +21,8 @@
     "check:staging": "node -e \"if(!process.env.STAGING_URL){console.error('Set STAGING_URL, e.g. STAGING_URL=https://desinetwork.vercel.app pnpm check:staging');process.exit(1)}\" && BASE_URL=$STAGING_URL playwright test"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1176.0",
+    "@aws-sdk/s3-request-presigner": "^3.1176.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.119.2",
     "class-variance-authority": "^0.7.1",
