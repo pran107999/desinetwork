@@ -22,7 +22,7 @@ Do not add a new dependency or external service without saying why in the PR des
 2. Read the task row and its acceptance criteria (AC) in `docs/prd.md` or `docs/architecture.md`.
 3. Before coding, write a short plan: files to change, DB changes, tests to add. Keep the change small.
 4. **Write tests first** that prove each AC, then implement until they pass.
-5. With local Supabase running (`pnpm db:start`), run `pnpm lint && pnpm typecheck && pnpm test && pnpm test:integration && pnpm test:e2e` before declaring done. After a migration, run `supabase db reset` and `pnpm db:types` first.
+5. With local Supabase running (`pnpm db:start`), run `pnpm lint && pnpm typecheck && pnpm test && pnpm test:integration && pnpm test:db && pnpm test:e2e` before declaring done. After a migration, run `supabase db reset` and `pnpm db:types` first.
 6. Update `docs/tasks.md`: set the task to `Done` (or `Blocked` with a reason).
 7. Open a PR using the template in §9.
 
@@ -97,6 +97,7 @@ pnpm lint              # ESLint
 pnpm typecheck         # next typegen + tsc --noEmit
 pnpm test              # Vitest unit tests
 pnpm test:integration  # Vitest against local Supabase (.env.local)
+pnpm test:db           # pgTAP database tests in supabase/tests (e.g. RLS on every table)
 pnpm test:e2e          # Playwright (375px + 1440px); needs local Supabase
 pnpm check:cloud       # connection check against cloud staging (.env.staging.local)
 pnpm db:start          # local Supabase (Docker)

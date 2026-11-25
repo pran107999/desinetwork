@@ -134,6 +134,17 @@ Each check returns `allow / review / block` + a reason. Adding the AI check late
 
 **Security:** Postgres **row-level security** on every table (for example, a user can only edit their own listings; only moderators can read reports).
 
+### 5.1 Access rules (row-level security)
+Every public table has RLS enabled; `supabase/tests/rls_enabled.test.sql` (pgTAP, run in CI) fails if one does not. Writes that need elevated rights go through server code with the secret key (`lib/db/admin.ts`), after a permission check.
+
+| Table | Signed-out | Signed-in user | Moderator / admin (active) |
+|---|---|---|---|
+| `cities`, `categories`, `category_fields` | Read active rows | Read active rows | Read active rows (edits via admin tools, T5.9) |
+| `profiles` | None | Read own; update own `display_name`, `photo_url`, `city_id` only (column grants) | Read all; cannot edit others through the API |
+
+Helper: `public.is_staff()` is true for an active moderator or admin; reuse it in later policies. New tables add a row here with their policies and tests.
+
+
 ---
 
 ## 6. AI Layer (for MVP 8)

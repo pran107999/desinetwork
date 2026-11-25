@@ -103,7 +103,9 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "is_staff":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           }
           }
           Enums: {
             "field_type": "text"|"number"|"money"|"select"|"bool"|"date","user_role": "user"|"moderator"|"admin","user_status": "active"|"suspended"|"banned"
