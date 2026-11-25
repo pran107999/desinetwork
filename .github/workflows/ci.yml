@@ -66,6 +66,10 @@ jobs:
       - name: Integration tests
         run: pnpm test:integration
 
+      # pgTAP: every public table must have row-level security.
+      - name: Database tests
+        run: pnpm test:db
+
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         with:
