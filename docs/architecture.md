@@ -276,5 +276,6 @@ desinetwork/
 | A6 | Repo visibility | **Public** GitHub repo (24 Nov 2026): branch protection on a private repo needs GitHub Pro. No secrets in the repo; turn on secret scanning + push protection (Settings → Code security) |
 | A7 | Contrast-safe primary | Filled buttons use saffron-dark `#C2410C` (5.18:1 with white). Saffron `#F26B1D` only for decoration (3.05:1 fails AA) |
 | A8 | Hosting | **Vercel replaces Render** (product owner, 25 Nov 2026). Hobby while building; **Pro at launch** (Hobby is non-commercial only). Functions in `pdx1` next to Supabase. `main` deploys to staging; PRs get preview URLs. Vercel Cron Jobs replace Render Cron Jobs |
+| A9 | Email sender | Transactional email from `no-reply@desinetwork.co` via Resend (sending-only key). DNS stays at GoDaddy until A0.13; Resend records sit beside the existing (unused) Microsoft 365 records. `otp.desinetwork.co` remains a separately verified subdomain |
 
 No open questions. Next: start A0.1 with Claude Code.

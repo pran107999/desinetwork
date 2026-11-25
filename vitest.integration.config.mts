@@ -19,7 +19,7 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["tests/integration/**/*.test.ts"],
+    include: ["tests/integration/**/*.test.{ts,tsx}"],
     env: { ...fileEnv, SUPABASE_TARGET: target },
   },
 });
