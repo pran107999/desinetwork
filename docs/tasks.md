@@ -11,7 +11,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 |---|---|---|---|
 | A0.1 | Create GitHub repo + Next.js (TypeScript, Tailwind, shadcn/ui) project; add `CLAUDE.md`, `/docs`, `.env.exa… | Done | `feat/A0.1-project-setup`; Playwright 375/1440 projects already in place (part of A0.14) |
 | A0.2 | Create Supabase project + set up local Supabase CLI | Done | `feat/A0.2-supabase`; cloud project `desinetwork` (us-west-2) linked; `pnpm check:cloud` passes |
-| A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | Todo | |
+| A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | Done | `feat/A0.3-master-data`; migration applied to cloud staging; seed is local-only |
 | A0.4 | Row-level security policies baseline | Todo | |
 | A0.5 | Deploy to Render (staging) from `main` | Todo | |
 | A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Todo | |
@@ -28,8 +28,8 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | ID | Task | Status | PR / notes |
 |---|---|---|---|
 | T0.1 | Set up repo, branching, environments (dev/staging/prod), CI pipeline | Todo | |
-| T0.2 | Create city master data (city name, state label, slug); seed the 11 launch cities | Todo | |
-| T0.3 | Create category taxonomy + per-category field definitions (Section 4.1) | Todo | |
+| T0.2 | Create city master data (city name, state label, slug); seed the 11 launch cities | In progress | Data + seed done in A0.3; "sortable and searchable" list is the city picker (T0.5) |
+| T0.3 | Create category taxonomy + per-category field definitions (Section 4.1) | Done | Covered by A0.3 (categories, subcategories, fields) |
 | T0.4 | Base layout: header (logo, city picker, Post Ad button), footer, responsive grid | Todo | |
 | T0.5 | City picker (FR-LOC-1) | Todo | |
 | T0.6 | Event logging hook: record key events (view, search, post, contact) in a standard format | Todo | |
