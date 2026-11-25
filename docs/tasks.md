@@ -16,7 +16,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | A0.5 | Deploy to Vercel (staging) from `main` | Done | Vercel project `desinetwork`, staging https://desinetwork.vercel.app (pdx1). Merge of PR #9 (`e1c62ab`) appeared in staging `/api/health`; `pnpm check:staging` 4/4 |
 | A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Done | `feat/A0.6-ci`; `checks` job required on `main`; failing-test PR #6 was blocked. Done before A0.4/A0.5 by agreement |
 | A0.7 | Cloudflare R2 bucket + signed upload API | Done | `feat/A0.7-r2-uploads`; buckets `desinetwork-photos-dev`/`-staging` (private, one token each); real upload test runs in CI |
-| A0.8 | Resend domain verification + test email | Todo | |
+| A0.8 | Resend domain verification + test email | Done | `feat/A0.8-resend-email`; desinetwork.co verified in Resend (DNS at GoDaddy, M365 records untouched); test email reached Gmail Primary inbox; real send runs in CI |
 | A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Todo | |
 | A0.10 | Stripe test mode keys + webhook endpoint | Todo | |
 | A0.11 | Sentry + PostHog connected | Todo | |

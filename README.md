@@ -48,3 +48,13 @@ Uploads: the browser calls `POST /api/uploads/sign` with `{ contentType, size }`
 pnpm test:integration                     # includes a real upload to the dev bucket (skips without R2 keys)
 KEEP_TEST_UPLOAD=1 pnpm test:integration  # keep the test file so you can see it in the Cloudflare dashboard
 ```
+
+## Email (Resend)
+Sends from `Desinetwork <no-reply@desinetwork.co>`; the domain is verified in Resend (DNS at GoDaddy: `resend._domainkey` TXT and `send` CNAME). `otp.desinetwork.co` is an older verified subdomain, left as is. The API key has **sending access** only. Set `RESEND_API_KEY` and `EMAIL_FROM` in `.env.local`, Vercel and the GitHub secret `RESEND_API_KEY`.
+
+Code: `lib/notify/email.ts` (`sendEmail`), templates in `/emails`. Logs never show full addresses.
+
+```bash
+pnpm email:test                                 # real send to Resend's test inbox (delivered@resend.dev)
+EMAIL_TEST_TO=you@example.com pnpm email:test   # also send to your own inbox
+```
