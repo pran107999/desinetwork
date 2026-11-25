@@ -1,7 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const PORT = Number(process.env.PORT ?? 3000);
-const baseURL = `http://localhost:${PORT}`;
+// BASE_URL runs the same tests against a deployed site (e.g. staging)
+// instead of starting a local server.
+const externalBaseURL = process.env.BASE_URL;
+const baseURL = externalBaseURL ?? `http://localhost:${PORT}`;
 
 // Every e2e test runs at the two sizes required by CLAUDE.md §4.
 export default defineConfig({
@@ -24,10 +27,12 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
     },
   ],
-  webServer: {
-    command: process.env.CI ? `pnpm build && pnpm start --port ${PORT}` : `pnpm dev --port ${PORT}`,
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-  },
+  webServer: externalBaseURL
+    ? undefined
+    : {
+        command: process.env.CI ? `pnpm build && pnpm start --port ${PORT}` : `pnpm dev --port ${PORT}`,
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 180_000,
+      },
 });

@@ -11,7 +11,7 @@ Rules for Claude Code working in this repository. Read this file at the start of
 ## 2. Stack (do not change without approval)
 - Next.js (App Router) + **TypeScript (strict)** + Tailwind CSS + shadcn/ui
 - Supabase: PostgreSQL, Auth (email code, Google, phone), pg_cron
-- Hosting: Render · Photos: Cloudflare R2 · Email: Resend + React Email · SMS: Twilio Verify (via Supabase phone auth) · Payments: Stripe · Errors: Sentry · Analytics: PostHog · Bot protection: Cloudflare Turnstile
+- Hosting: Vercel (functions in `pdx1`, next to Supabase us-west-2) · Photos: Cloudflare R2 · Email: Resend + React Email · SMS: Twilio Verify (via Supabase phone auth) · Payments: Stripe · Errors: Sentry · Analytics: PostHog · Bot protection: Cloudflare Turnstile
 - Tests: Vitest (unit/integration), Playwright (e2e at 375px and 1440px)
 - Package manager: **pnpm**
 

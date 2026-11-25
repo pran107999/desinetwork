@@ -26,7 +26,7 @@
 |---|---|---|---|
 | Language | **TypeScript** everywhere | — | — |
 | Web app (UI + API) | **Next.js** (App Router, server rendering for SEO) + **Tailwind CSS** + **shadcn/ui** components | Free (open source) | — |
-| Hosting | **Render** web service | Free (sleeps after 15 min idle; ~1 min wake-up) | Paid instance (no sleep) |
+| Hosting | **Vercel** (Next.js; functions in `pdx1` Portland, next to the database) | Hobby (free; **non-commercial use only**) | **Vercel Pro** (required once the site earns money) |
 | Database | **PostgreSQL on Supabase** | Free (500 MB DB, pauses after 7 days idle) | Supabase Pro |
 | Auth | **Supabase Auth**: email code, Google sign-in, phone code | Free | Included in Supabase |
 | Phone verification (SMS) | **Twilio Verify**, connected to Supabase phone auth | Test phone numbers with fixed codes (no cost) | Pay per verification |
@@ -36,7 +36,7 @@
 | Search (now) | **Postgres full-text search** + `pg_trgm` (typo tolerance) | Free (built in) | — |
 | Search (AI, MVP 8) | **pgvector** in the same Postgres + an AI model for query → filters | Free extension | AI model usage fees |
 | Payments | **Stripe** Checkout + webhooks | Test mode (free) | Per-transaction fee only |
-| Scheduled jobs | **Supabase pg_cron** (ad expiry) + **Render Cron Jobs** (email digests) | Free | — |
+| Scheduled jobs | **Supabase pg_cron** (ad expiry) + **Vercel Cron Jobs** (email digests) | Free (Hobby: at most once a day per job) | Pro: more frequent |
 | Maps | **OpenStreetMap + Leaflet** | Free | — |
 | Bot protection | **Cloudflare Turnstile** on sign-up and posting | Free | — |
 | Error tracking | **Sentry** | Free tier | Paid if volume grows |
@@ -53,7 +53,7 @@
 ```mermaid
 flowchart LR
     U[Users<br/>web & mobile browser] -->|HTTPS| CF[Cloudflare<br/>DNS + Turnstile]
-    CF --> APP[Next.js app on Render<br/>pages + API routes]
+    CF --> APP[Next.js app on Vercel<br/>pages + API routes]
 
     subgraph Supabase
       DB[(PostgreSQL<br/>+ full-text search<br/>+ pgvector later)]
@@ -70,7 +70,7 @@ flowchart LR
     APP -->|checkout| ST[Stripe]
     ST -->|payment webhooks| APP
     APP --> SEN[Sentry / PostHog]
-    RC[Render Cron Jobs<br/>saved-search alerts, digests] --> APP
+    RC[Vercel Cron Jobs<br/>saved-search alerts, digests] --> APP
     APP -.->|MVP 8| AI[AI service layer<br/>query→filters, ranking]
 ```
 
@@ -157,7 +157,7 @@ Helper: `public.is_staff()` is true for an active moderator or admin; reuse it i
 ---
 
 ## 7. Security & Privacy
-- HTTPS everywhere; secrets in Render/GitHub environment variables, never in code.
+- HTTPS everywhere; secrets in Vercel/GitHub environment variables, never in code.
 - Row-level security in Postgres; server-side permission checks on every API route.
 - Rate limiting on login, OTP, posting and messaging; Turnstile on sign-up and posting.
 - Uploaded photos: type/size checks, re-encoded with sharp, location data removed.
@@ -172,8 +172,8 @@ Helper: `public.is_staff()` is true for an active moderator or admin; reuse it i
 | Environment | Purpose | Setup |
 |---|---|---|
 | Local | Development | Supabase CLI (local Postgres + Auth in Docker), Stripe test mode, Twilio test numbers |
-| Staging | Test each task before merge | Render free service + free Supabase project |
-| Production | Live site | Render paid + Supabase Pro (at launch) |
+| Staging | Test each task before merge | Vercel project (`main` → its "Production" URL, which is our staging until launch; every PR gets a preview URL) + free Supabase project |
+| Production | Live site | Vercel Pro + Supabase Pro (at launch; separate project and database, decided before launch) |
 
 **Workflow:** feature branch → pull request → GitHub Actions runs lint, type check, unit tests and Playwright tests → merge to `main` → auto-deploy to staging → manual promote to production.
 
@@ -234,11 +234,11 @@ desinetwork/
 | Phase | Monthly cost |
 |---|---|
 | **Building (MVP 0–7)** | **$0**: all services on free tiers / test modes |
-| **Launch** | Paid: Render instance (no sleep), Supabase Pro, Resend Pro (when >100 emails/day), Twilio per verification, Stripe per transaction, domain name |
+| **Launch** | Paid: Vercel Pro (commercial use), Supabase Pro, Resend Pro (when >100 emails/day), Twilio per verification, Stripe per transaction, domain name |
 | **Later** | AI model usage (MVP 8), more storage/bandwidth as listings grow |
 
 **Known free-tier limits during building:**
-- Render free: service sleeps after 15 minutes idle.
+- Vercel Hobby: non-commercial use only (fine while building; Pro before launch); cron jobs at most once a day.
 - Supabase free: project pauses after 7 days without activity.
 - Resend free: 100 emails per day.
 
@@ -252,7 +252,7 @@ desinetwork/
 | A0.2 | Create Supabase project + set up local Supabase CLI | App connects to local and cloud DB |
 | A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | `supabase db reset` loads all seed data |
 | A0.4 | Row-level security policies baseline | Automated test: user A cannot edit user B's data |
-| A0.5 | Deploy to Render (staging) from `main` | Push to `main` updates the staging URL |
+| A0.5 | Deploy to Vercel (staging) from `main` | Push to `main` updates the staging URL |
 | A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Failing test blocks merge |
 | A0.7 | Cloudflare R2 bucket + signed upload API | Test upload succeeds; file visible in bucket |
 | A0.8 | Resend domain verification + test email | Test email lands in inbox (not spam) |
@@ -260,7 +260,7 @@ desinetwork/
 | A0.10 | Stripe test mode keys + webhook endpoint | Test webhook received and verified |
 | A0.11 | Sentry + PostHog connected | Test error appears in Sentry; page view in PostHog |
 | A0.12 | `activity_events` table + `logEvent()` helper (PRD T0.6) | View/search/post events are stored |
-| A0.13 | Connect **desinetwork.co** to Cloudflare DNS; `staging.desinetwork.co` → Render staging | Both URLs load over HTTPS |
+| A0.13 | Connect **desinetwork.co** to Cloudflare DNS; `staging.desinetwork.co` → Vercel staging | Both URLs load over HTTPS |
 | A0.14 | Responsive check in CI: Playwright runs e2e tests at 375px and 1440px | Tests pass at both sizes |
 
 ---
@@ -272,8 +272,9 @@ desinetwork/
 | A2 | Who builds | **Claude Code**: test-first, one task per branch (see §8.1) |
 | A3 | Platform | **Responsive web** only; PWA later; no native apps for now |
 | A4 | Domain | **desinetwork.co** |
-| A5 | Services | Render (hosting), Supabase (DB/auth), Twilio Verify (SMS), Resend (email), Cloudflare R2 (photos), Stripe (payments). Paid plans acceptable when needed |
+| A5 | Services | ~~Render~~ Vercel (hosting, see A8), Supabase (DB/auth), Twilio Verify (SMS), Resend (email), Cloudflare R2 (photos), Stripe (payments). Paid plans acceptable when needed |
 | A6 | Repo visibility | **Public** GitHub repo (24 Nov 2026): branch protection on a private repo needs GitHub Pro. No secrets in the repo; turn on secret scanning + push protection (Settings → Code security) |
 | A7 | Contrast-safe primary | Filled buttons use saffron-dark `#C2410C` (5.18:1 with white). Saffron `#F26B1D` only for decoration (3.05:1 fails AA) |
+| A8 | Hosting | **Vercel replaces Render** (product owner, 25 Nov 2026). Hobby while building; **Pro at launch** (Hobby is non-commercial only). Functions in `pdx1` next to Supabase. `main` deploys to staging; PRs get preview URLs. Vercel Cron Jobs replace Render Cron Jobs |
 
 No open questions. Next: start A0.1 with Claude Code.

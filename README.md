@@ -30,3 +30,11 @@ Health check: `GET /api/health` returns `{ "db": "ok", "auth": "ok" }`.
 
 ## CI
 Every pull request and every push to `main` runs `.github/workflows/ci.yml` (job **checks**): lint, type check, unit tests, local Supabase + integration tests, and Playwright e2e at 375px and 1440px. `main` only accepts PRs whose **checks** job passed. Node version: `.nvmrc`.
+
+## Staging (Vercel)
+`main` deploys automatically to the Vercel project's production URL, which is our **staging** site until launch. Every PR gets its own preview URL. Functions run in `pdx1` (next to Supabase). Environment variables are set in Vercel → Project → Settings → Environment Variables (Production and Preview).
+
+```bash
+STAGING_URL=https://<project>.vercel.app pnpm check:staging   # e2e tests against staging, 375px + 1440px
+```
+`GET /api/health` shows `{ db, auth, commit }`; `commit` is the deployed git commit.
