@@ -14,7 +14,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | A0.3 | First migration: cities, categories, category_fields, profiles + seed 11 cities & 7 categories | Done | `feat/A0.3-master-data`; migration + seed applied to cloud staging |
 | A0.4 | Row-level security policies baseline | Todo | |
 | A0.5 | Deploy to Render (staging) from `main` | Todo | |
-| A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Todo | |
+| A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Done | `feat/A0.6-ci`; `checks` job required on `main`; failing-test PR #6 was blocked. Done before A0.4/A0.5 by agreement |
 | A0.7 | Cloudflare R2 bucket + signed upload API | Todo | |
 | A0.8 | Resend domain verification + test email | Todo | |
 | A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Todo | |
@@ -22,7 +22,7 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | A0.11 | Sentry + PostHog connected | Todo | |
 | A0.12 | `activity_events` table + `logEvent()` helper (PRD T0.6) | Todo | |
 | A0.13 | Connect desinetwork.co to Cloudflare DNS; `staging.desinetwork.co` → Render staging | Todo | |
-| A0.14 | Responsive check in CI: Playwright runs e2e tests at 375px and 1440px | Todo | |
+| A0.14 | Responsive check in CI: Playwright runs e2e tests at 375px and 1440px | Done | Covered by A0.6: CI runs Playwright at 375px and 1440px |
 
 ## MVP 0 — Foundation
 | ID | Task | Status | PR / notes |
