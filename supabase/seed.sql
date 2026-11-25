@@ -32,11 +32,11 @@ insert into public.categories (name, slug, price_label, sort_order) values
   ('Community', 'community', null, 7);
 
 ------------------------------------------------------------------------------
--- Subcategories (inherit the parent's price label)
+-- Subcategories (the price label lives on the parent only)
 ------------------------------------------------------------------------------
 
-insert into public.categories (parent_id, name, slug, price_label, sort_order)
-select p.id, s.name, s.slug, p.price_label, s.sort_order
+insert into public.categories (parent_id, name, slug, sort_order)
+select p.id, s.name, s.slug, s.sort_order
 from (values
   ('rentals', 'Room for rent', 'room-for-rent', 1),
   ('rentals', 'Roommate wanted', 'roommate-wanted', 2),

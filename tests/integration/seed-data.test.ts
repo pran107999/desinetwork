@@ -112,6 +112,61 @@ describe.runIf(isLocal)("seed data after supabase db reset (A0.3)", () => {
     }
   });
 
+  it("keeps the price label only on top-level categories", () => {
+    const subsWithLabel = categories.filter((c) => c.parent_id !== null && c.price_label !== null);
+    expect(subsWithLabel.map((c) => c.slug)).toEqual([]);
+  });
+
+  describe("taxonomy integrity (review fixes)", () => {
+    it("refuses to move a category that has subcategories under another category", async () => {
+      const { error } = await admin
+        .from("categories")
+        .update({ parent_id: bySlug("autos").id })
+        .eq("id", bySlug("jobs").id);
+      expect(error?.message).toMatch(/two levels/);
+    });
+
+    it("refuses to put a subcategory under another subcategory", async () => {
+      const { error } = await admin
+        .from("categories")
+        .insert({ parent_id: bySlug("cars", "autos").id, name: "Too deep", slug: "too-deep" });
+      expect(error?.message).toMatch(/two levels/);
+    });
+
+    it("refuses a price label on a subcategory", async () => {
+      const { error } = await admin
+        .from("categories")
+        .update({ price_label: "Price" })
+        .eq("id", bySlug("cars", "autos").id);
+      expect(error).not.toBeNull();
+    });
+
+    it("refuses a subcategory field that repeats a parent field key", async () => {
+      const { error } = await admin.from("category_fields").insert({
+        category_id: bySlug("furniture", "buy-sell").id,
+        key: "condition",
+        label: "Condition again",
+        type: "text",
+      });
+      expect(error?.message).toMatch(/already defined/);
+    });
+
+    it("refuses a parent field that repeats a subcategory field key", async () => {
+      const { error } = await admin.from("category_fields").insert({
+        category_id: bySlug("real-estate").id,
+        key: "beds",
+        label: "Bedrooms",
+        type: "number",
+      });
+      expect(error?.message).toMatch(/already defined/);
+    });
+
+    it("still allows the same key on two sibling subcategories", () => {
+      const beds = fields.filter((f) => f.key === "beds");
+      expect(beds).toHaveLength(2);
+    });
+  });
+
   it("gives rentals their typed fields, with filters and options", () => {
     const f = formFields("rentals", "room-for-rent");
     const keys = f.map((x) => x.key).sort();

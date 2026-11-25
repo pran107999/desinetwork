@@ -117,8 +117,8 @@ Each check returns `allow / review / block` + a reason. Adding the AI check late
 |---|---|
 | `profiles` | id (= auth user), display_name, photo_url, city_id, phone_verified, role (user/moderator/admin), status (active/suspended/banned), created_at, updated_at *(created automatically on sign-up)* |
 | `cities` | id, name, state_label, slug, is_active, sort_order *(country column added later for global scope)* |
-| `categories` | id, parent_id (null for top level), name, slug (unique within parent), price_label (null = no price, e.g. Jobs), sort_order, is_active |
-| `category_fields` | id, category_id (top-level = shared by all subcategories, or one subcategory), key, label, type (text/number/money/select/bool/date; money in cents), options (JSON `[{value,label}]`), required, filterable, sort_order, is_active |
+| `categories` | id, parent_id (null for top level), name, slug (unique within parent), price_label (top-level only; subcategories use the parent's; null = no price, e.g. Jobs), sort_order, is_active. Max two levels, enforced in both directions |
+| `category_fields` | id, category_id (top-level = shared by all subcategories, or one subcategory), key (unique across a category and its subcategories; siblings may share), label, type (text/number/money/select/bool/date; money in cents), options (JSON `[{value,label}]`), required, filterable, sort_order, is_active |
 | `listings` | id, user_id, city_id, category_id, title, description, price, status, language, expires_at, view_count, search_vector (tsvector), embedding (vector, MVP 8), created_at |
 | `listing_attributes` | listing_id, field_key, value *(typed values for category fields)* |
 | `listing_photos` | id, listing_id, r2_key, width, height, sort_order, is_cover, image_hash |
