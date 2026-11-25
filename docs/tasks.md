@@ -17,7 +17,8 @@ Note: PRD T0.1 is covered by A0.1, A0.5 and A0.6; T0.2/T0.3 by A0.3; T0.6 by A0.
 | A0.6 | GitHub Actions CI: lint, type check, unit + e2e tests | Done | `feat/A0.6-ci`; `checks` job required on `main`; failing-test PR #6 was blocked. Done before A0.4/A0.5 by agreement |
 | A0.7 | Cloudflare R2 bucket + signed upload API | Done | `feat/A0.7-r2-uploads`; buckets `desinetwork-photos-dev`/`-staging` (private, one token each); real upload test runs in CI |
 | A0.8 | Resend domain verification + test email | Done | `feat/A0.8-resend-email`; desinetwork.co verified in Resend (DNS at GoDaddy, M365 records untouched); test email reached Gmail Primary inbox; real send runs in CI |
-| A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Todo | |
+| A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Deferred | Product owner (D12): build just before T2.3b; email codes first (A0.9e) |
+| A0.9e | Email sign-in codes: Supabase Auth sends 6-digit codes via Resend SMTP (replaces A0.9 in the setup order, D12) | Done | `feat/A0.9e-email-otp`; staging code via Resend SMTP reached Gmail Primary inbox and signed in (`pnpm otp:test`) |
 | A0.10 | Stripe test mode keys + webhook endpoint | Todo | |
 | A0.11 | Sentry + PostHog connected | Todo | |
 | A0.12 | `activity_events` table + `logEvent()` helper (PRD T0.6) | Todo | |

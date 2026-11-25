@@ -79,7 +79,7 @@ flowchart LR
 ## 4. Key Flows
 
 ### 4.1 Sign up and phone verification (FR-ACC-1/2/3)
-1. User signs up with email code or Google (Supabase Auth).
+1. User signs up with a 6-digit email code (Supabase Auth, sent through Resend from `no-reply@desinetwork.co`; codes valid 10 minutes, one request per 60 seconds) or Google.
 2. Before the first ad, the app asks for a US phone number → Supabase sends a code through Twilio Verify.
 3. User enters the code → `profiles.phone_verified = true` → "Verified" badge.
 4. Development uses Supabase **test phone numbers** with fixed codes, so no SMS is sent.
@@ -257,6 +257,7 @@ desinetwork/
 | A0.7 | Cloudflare R2 bucket + signed upload API | Test upload succeeds; file visible in bucket |
 | A0.8 | Resend domain verification + test email | Test email lands in inbox (not spam) |
 | A0.9 | Twilio Verify connected to Supabase phone auth; test numbers for dev | Test number receives fixed code in dev; real SMS works on staging |
+| A0.9e | Email sign-in codes: Supabase Auth sends 6-digit codes through Resend SMTP (D12) | A user can request a 6-digit email code and sign in with it; a wrong or expired code is rejected and repeat requests are rate-limited; on staging the code email arrives from `no-reply@desinetwork.co` in the inbox |
 | A0.10 | Stripe test mode keys + webhook endpoint | Test webhook received and verified |
 | A0.11 | Sentry + PostHog connected | Test error appears in Sentry; page view in PostHog |
 | A0.12 | `activity_events` table + `logEvent()` helper (PRD T0.6) | View/search/post events are stored |

@@ -19,7 +19,8 @@
     "db:types": "supabase gen types --lang typescript --local > lib/db/types.ts.tmp && mv lib/db/types.ts.tmp lib/db/types.ts || (rm -f lib/db/types.ts.tmp; exit 1)",
     "test:db": "supabase test db",
     "check:staging": "node -e \"if(!process.env.STAGING_URL){console.error('Set STAGING_URL, e.g. STAGING_URL=https://desinetwork.vercel.app pnpm check:staging');process.exit(1)}\" && BASE_URL=$STAGING_URL playwright test",
-    "email:test": "vitest run --config vitest.integration.config.mts tests/integration/email.test.tsx"
+    "email:test": "vitest run --config vitest.integration.config.mts tests/integration/email.test.tsx",
+    "otp:test": "node --env-file=.env.staging.local scripts/otp-test.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1176.0",
