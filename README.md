@@ -14,3 +14,16 @@ pnpm dev                                 # http://localhost:3000
 ```
 
 Checks (run before every PR): `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`
+
+## Local Supabase
+Requires Docker Desktop (running) and the Supabase CLI.
+
+```bash
+pnpm db:start          # start local Postgres + Auth in Docker (Studio: http://127.0.0.1:54323)
+supabase status -o env # copy API_URL / PUBLISHABLE_KEY / SECRET_KEY into .env.local (see .env.example)
+pnpm test:integration  # checks the app can reach local Supabase
+pnpm db:stop
+```
+
+Cloud staging: put the staging project's values in `.env.staging.local` (gitignored), then run `pnpm check:cloud`.
+Health check: `GET /api/health` returns `{ "db": "ok", "auth": "ok" }`.
