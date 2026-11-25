@@ -26,7 +26,7 @@ Create these with your project email. Free tiers are enough while building.
 |---|---|---|
 | GitHub | Code + CI/CD | A0.1 |
 | Supabase | Database, login | A0.2 |
-| Render | Hosting (staging) | A0.5 |
+| Vercel | Hosting (staging; Pro at launch) | A0.5 |
 | Cloudflare | DNS for desinetwork.co, R2 photos, Turnstile | A0.7, A0.13 |
 | Resend | Email | A0.8 |
 | Twilio | SMS phone verification (pay per SMS at launch) | A0.9 |
@@ -103,7 +103,7 @@ then implement. Run all checks, update docs/tasks.md, open a PR with the templat
 
 **When a task needs an account or keys** (Supabase, R2, Resend, Twilio, Stripe…):
 - Claude Code tells you which values are needed.
-- **You** create the account and paste keys into `.env.local` (never into chat or code) and into Render/GitHub secrets.
+- **You** create the account and paste keys into `.env.local` (never into chat or code) and into Vercel/GitHub secrets.
 - Then tell Claude Code "keys are set" and it continues.
 
 **Your review checklist (before merging each PR):**
@@ -128,7 +128,7 @@ Then merge, and start the next task in a **new** Claude Code session (or `/clear
 | MVP 5 | A reported ad can be removed from the admin queue |
 | MVP 6 | Test payment features an ad; price change in admin works |
 | MVP 7 | Events and business directory live: **v1 launch-ready** |
-| Pre-launch | Switch to paid: Render instance, Supabase Pro, Twilio live SMS, Stripe live keys, Resend Pro if needed |
+| Pre-launch | Switch to paid: Vercel Pro, Supabase Pro, Twilio live SMS, Stripe live keys, Resend Pro if needed |
 
 ---
 

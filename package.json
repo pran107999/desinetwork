@@ -17,7 +17,8 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types --lang typescript --local > lib/db/types.ts.tmp && mv lib/db/types.ts.tmp lib/db/types.ts || (rm -f lib/db/types.ts.tmp; exit 1)",
-    "test:db": "supabase test db"
+    "test:db": "supabase test db",
+    "check:staging": "node -e \"if(!process.env.STAGING_URL){console.error('Set STAGING_URL, e.g. STAGING_URL=https://desinetwork.vercel.app pnpm check:staging');process.exit(1)}\" && BASE_URL=$STAGING_URL playwright test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
