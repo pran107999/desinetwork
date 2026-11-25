@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { parseServerEnv } from "@/lib/db/env";
 import { deleteEmailsTo, sixDigitCode, waitForEmail } from "../support/mailpit";
 
@@ -19,6 +19,20 @@ describe.runIf(isLocal)("email one-time codes (A0.9e)", () => {
     emails.push(e);
     return e;
   };
+
+  // Right after `supabase start`, Auth can't fetch custom templates yet and
+  // quietly sends its default email; it reloads them within about a minute.
+  // Wait until the branded template is live so the checks below are meaningful.
+  beforeAll(async () => {
+    const deadline = Date.now() + 90_000;
+    while (Date.now() < deadline) {
+      const probe = newEmail();
+      await visitor().auth.signInWithOtp({ email: probe });
+      if (/Desinetwork/.test((await waitForEmail(probe)).Subject)) return;
+      await new Promise((r) => setTimeout(r, 5_000));
+    }
+    throw new Error("Supabase Auth never switched to the Desinetwork email template (see supabase/config.jsonc)");
+  }, 100_000);
 
   afterAll(async () => {
     const { data } = await admin.auth.admin.listUsers({ perPage: 1000 });
