@@ -378,6 +378,7 @@ Payments between users, native apps, matrimonial, movies/recipes/jokes content, 
 
 | D10 | Featured / Bump launch prices | **Confirmed: $9.99 / 7 days (Featured), $2.99 per bump.** Admins can change prices anytime in the admin panel (T6.1) without a code release |
 | D11 | Master data defaults (A0.3) | City slugs are `<city>-<state>` (e.g. `edison-nj`, `sf-bay-area-ca`, `washington-dc`). Category slugs: `rentals`, `real-estate`, `jobs`, `buy-sell`, `autos`, `services`, `community`. Fields attach to a category (shared) or one subcategory. Listings have one optional price; the category's `price_label` names it and Jobs/Community have none. Field list as in `supabase/seed.sql` |
+| D12 | Order of verification work | **Email sign-in codes first (A0.9e); phone verification (A0.9 setup + T2.3b) built later, just before T2.3b.** D3 still applies: a verified US phone is required to post at launch |
 
 No open questions. Changes after v1.0 are added as new decisions in this log.
 

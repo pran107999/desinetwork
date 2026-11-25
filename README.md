@@ -58,3 +58,16 @@ Code: `lib/notify/email.ts` (`sendEmail`), templates in `/emails`. Logs never sh
 pnpm email:test                                 # real send to Resend's test inbox (delivered@resend.dev)
 EMAIL_TEST_TO=you@example.com pnpm email:test   # also send to your own inbox
 ```
+
+## Email sign-in codes (Supabase Auth)
+Users sign in with a **6-digit code** emailed by Supabase Auth (no links). Codes last **10 minutes**; one request per **60 seconds**. Template: `supabase/templates/email-code.html`.
+
+- **Local / CI:** emails land in the local test inbox (Mailpit, http://127.0.0.1:54324); tests read the code from there.
+- **Staging (cloud):** Supabase sends through Resend's SMTP from `no-reply@desinetwork.co`. Settings live in the Supabase dashboard, not in the repo:
+  - Authentication → Emails → **SMTP Settings**: host `smtp.resend.com`, port `465`, user `resend`, password = Resend key `supabase-auth` (sending access), sender `no-reply@desinetwork.co`, name `Desinetwork`.
+  - Authentication → Emails → **Templates**: "Confirm signup" and "Magic Link" use the subject `Your Desinetwork sign-in code` and the HTML of `supabase/templates/email-code.html`.
+  - Authentication → Sign In / Providers → **Email**: email OTP expiration `600` seconds.
+
+```bash
+pnpm otp:test   # sends a real code to the address you type, against staging
+```

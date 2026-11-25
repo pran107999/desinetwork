@@ -265,11 +265,13 @@
       // they signed in with a one-time password, magic link, or recovery link.
       // "require_current_password": true,
       // Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
-      "max_frequency": "1s",
+      // A0.9e: also limits how often a sign-in code can be requested.
+      "max_frequency": "60s",
       // Number of characters used in the email OTP.
       "otp_length": 6,
       // Number of seconds before the email OTP expires (defaults to 1 hour).
-      "otp_expiry": 3600,
+      // A0.9e: codes are valid for 10 minutes.
+      "otp_expiry": 600,
 
       // Use a production-ready SMTP server
       // "smtp": {
@@ -282,13 +284,18 @@
       //   "sender_name": "Admin"
       // },
 
-      // Uncomment to customize email template
-      // "template": {
-      //   "invite": {
-      //     "subject": "You have been invited",
-      //     "content_path": "./supabase/templates/invite.html"
-      //   }
-      // },
+      // A0.9e: sign-up and sign-in emails show a 6-digit code (no link).
+      // Paste the same template into the cloud project (README "Email sign-in codes").
+      "template": {
+        "confirmation": {
+          "subject": "Your Desinetwork sign-in code",
+          "content_path": "./supabase/templates/email-code.html"
+        },
+        "magic_link": {
+          "subject": "Your Desinetwork sign-in code",
+          "content_path": "./supabase/templates/email-code.html"
+        }
+      },
 
       // Uncomment to customize notification email template
       // "notification": {

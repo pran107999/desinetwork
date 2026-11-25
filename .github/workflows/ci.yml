@@ -45,11 +45,12 @@ jobs:
           version: 3.4.0
 
       # Only the services the app uses today: Postgres, Auth (gotrue),
-      # REST (postgrest) and the API gateway (kong). Applies migrations + seed.
+      # REST (postgrest), the API gateway (kong) and the test inbox (mailpit,
+      # for email sign-in codes). Applies migrations + seed.
       - name: Start local Supabase
         run: >
           supabase start
-          -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+          -x realtime,storage-api,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
 
       # Local Supabase test keys only (not secrets); never real project keys.
       - name: Write .env.local from local Supabase
