@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { checkSupabase } from "@/lib/db/health";
+import { checkSupabase, diagnoseSupabase } from "@/lib/db/health";
 
 const ok = () => Promise.resolve(new Response("{}", { status: 200 }));
 
@@ -29,5 +29,27 @@ describe("checkSupabase (A0.2)", () => {
       db: "down",
       auth: "down",
     });
+  });
+});
+
+describe("diagnoseSupabase (A0.5 follow-up)", () => {
+  it("reports the HTTP status of a rejected call", async () => {
+    const fetchImpl = vi.fn((url: string) =>
+      Promise.resolve(new Response("", { status: url.includes("/rest/") ? 401 : 200 })),
+    ) as unknown as typeof fetch;
+    await expect(diagnoseSupabase({ url: "http://db.test", secretKey: "k", fetchImpl })).resolves.toEqual({
+      health: { db: "down", auth: "ok" },
+      problems: { db: "http_401" },
+    });
+  });
+
+  it("reports network failures and timeouts without error details", async () => {
+    const timeout = Object.assign(new Error("secret-ish detail"), { name: "TimeoutError" });
+    const fetchImpl = vi.fn((url: string) =>
+      Promise.reject(url.includes("/rest/") ? new Error("getaddrinfo ENOTFOUND x") : timeout),
+    ) as unknown as typeof fetch;
+    const result = await diagnoseSupabase({ url: "http://db.test", secretKey: "k", fetchImpl });
+    expect(result.problems).toEqual({ db: "network", auth: "timeout" });
+    expect(JSON.stringify(result)).not.toMatch(/ENOTFOUND|secret-ish/);
   });
 });
